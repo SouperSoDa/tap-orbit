@@ -6,17 +6,19 @@ const circle = document.getElementById("circle");
 const interstitial = document.getElementById("interstitial");
 const rewardBtn = document.getElementById("rewardBtn");
 
-// 🔒 FORCE HIDE on load
-interstitial.classList.add("hidden");
+// EXTRA SAFETY: hide on load
+document.addEventListener("DOMContentLoaded", () => {
+  interstitial.style.display = "none";
+});
 
 circle.addEventListener("click", () => {
   score++;
   taps++;
   scoreEl.textContent = score;
 
-  // Show fullscreen ad ONLY after 30 taps
+  // Show fullscreen ad only after 30 taps
   if (taps === 30) {
-    interstitial.classList.remove("hidden");
+    interstitial.style.display = "flex";
   }
 });
 
@@ -27,5 +29,5 @@ rewardBtn.addEventListener("click", () => {
 });
 
 function closeAd() {
-  interstitial.classList.add("hidden");
+  interstitial.style.display = "none";
 }
