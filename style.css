@@ -65,3 +65,24 @@ button:hover {
   border-radius: 10px;
 }
 
+/* Mobile-friendly scaling */
+@media (max-width: 600px) {
+  #circle {
+    width: 80px;
+    height: 80px;
+  }
+
+  button {
+    padding: 10px 15px;
+    font-size: 16px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}
+
