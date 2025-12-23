@@ -56,18 +56,6 @@ function addScore(amount) {
     spinSpeed = Math.max(0.5, spinSpeed - 0.2);
     circle.style.animation = `spin ${spinSpeed}s linear infinite`;
   }
-
-  // Milestone alert every 25 points
-  if (score % 25 === 0 && score !== 0) {
-    if (!document.getElementById(`milestone-${score}`)) {
-      const div = document.createElement('div');
-      div.id = `milestone-${score}`;
-      div.style.display = 'none';
-      document.body.appendChild(div);
-      alert(`Great Job! You reached ${score} points!`);
-      if (levelSound) levelSound.play();
-    }
-  }
 }
 
 // ==========================
@@ -106,3 +94,4 @@ rewardBtn.addEventListener("click", () => {
 function closeAd() {
   interstitial.style.display = "none";
 }
+
