@@ -6,22 +6,25 @@ const circle = document.getElementById("circle");
 const interstitial = document.getElementById("interstitial");
 const rewardBtn = document.getElementById("rewardBtn");
 
-circle.onclick = () => {
+// 🔒 FORCE HIDE on load
+interstitial.classList.add("hidden");
+
+circle.addEventListener("click", () => {
   score++;
   taps++;
   scoreEl.textContent = score;
 
-  // Show ad every 30 taps
-  if (taps % 30 === 0) {
+  // Show fullscreen ad ONLY after 30 taps
+  if (taps === 30) {
     interstitial.classList.remove("hidden");
   }
-};
+});
 
-rewardBtn.onclick = () => {
-  alert("Ad watched!");
+rewardBtn.addEventListener("click", () => {
+  alert("Simulated ad watched!");
   score += 50;
   scoreEl.textContent = score;
-};
+});
 
 function closeAd() {
   interstitial.classList.add("hidden");
