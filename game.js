@@ -14,9 +14,9 @@ const interstitial = document.getElementById("interstitial");
 const rewardBtn = document.getElementById("rewardBtn");
 
 // High score
-let highScore = localStorage.getItem('tapOrbitHighScore') || 0;
+let highScore = parseInt(localStorage.getItem('tapOrbitHighScore')) || 0;
 
-// Add High Score display
+// Display high score
 const highScoreEl = document.createElement('p');
 highScoreEl.textContent = `High Score: ${highScore}`;
 document.body.insertBefore(highScoreEl, circle);
@@ -29,10 +29,8 @@ const levelSound = document.getElementById('levelSound');
 // INIT
 // ==========================
 document.addEventListener("DOMContentLoaded", () => {
-  // Ensure fullscreen ad hidden
   interstitial.style.display = "none";
 
-  // Show cookie notice if needed
   if (!localStorage.getItem("cookiesAccepted")) {
     const cookieNotice = document.getElementById("cookieNotice");
     if (cookieNotice) cookieNotice.style.display = "block";
@@ -40,52 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==========================
-// TAP CIRCLE
+// HELPER FUNCTION TO UPDATE SCORE
 // ==========================
-circle.addEventListener("click", () => {
-  score++;
-  taps++;
-  scoreEl.textContent = score;
-
-  // Play tap sound
-  if (tapSound) tapSound.play();
-
-  // Update high score
-  if (score > highScore) {
-    highScore = score;
-    localStorage.setItem('tapOrbitHighScore', highScore);
-    highScoreEl.textContent = `High Score: ${highScore}`;
-  }
-
-  // Increase speed every 10 points
-  if (score % 10 === 0) {
-    spinSpeed = Math.max(0.5, spinSpeed - 0.2); // min 0.5s
-    circle.style.animation = `spin ${spinSpeed}s linear infinite`;
-  }
-
-  // Milestone alert every 25 points
-  if (score % 25 === 0 && score !== 0) {
-    if (!document.getElementById(`milestone-${score}`)) {
-      const div = document.createElement('div');
-      div.id = `milestone-${score}`;
-      div.style.display = 'none';
-      document.body.appendChild(div);
-      alert(`Great Job! You reached ${score} points!`);
-      if (levelSound) levelSound.play();
-    }
-  }
-
-  // Show fullscreen ad at 30 taps
-  if (taps === 30) {
-    interstitial.style.display = "flex";
-  }
-});
-
-// ==========================
-// IDLE POINTS
-// ==========================
-setInterval(() => {
-  score++;
+function addScore(amount) {
+  score += amount;
   scoreEl.textContent = score;
 
   // Update high score
@@ -96,7 +52,7 @@ setInterval(() => {
   }
 
   // Increase speed every 10 points
-  if (score % 10 === 0) {
+  if (score % 10 === 0 && score !== 0) {
     spinSpeed = Math.max(0.5, spinSpeed - 0.2);
     circle.style.animation = `spin ${spinSpeed}s linear infinite`;
   }
@@ -112,4 +68,41 @@ setInterval(() => {
       if (levelSound) levelSound.play();
     }
   }
-},
+}
+
+// ==========================
+// TAP CIRCLE
+// ==========================
+circle.addEventListener("click", () => {
+  addScore(1);
+  taps++;
+
+  if (tapSound) tapSound.play();
+
+  // Show fullscreen ad after 30 taps
+  if (taps === 30) {
+    interstitial.style.display = "flex";
+  }
+});
+
+// ==========================
+// IDLE POINTS
+// ==========================
+setInterval(() => {
+  addScore(1); // 1 point per second automatically
+}, 1000);
+
+// ==========================
+// REWARD BUTTON
+// ==========================
+rewardBtn.addEventListener("click", () => {
+  addScore(50);
+  alert("Ad watched! +50 points");
+});
+
+// ==========================
+// CLOSE INTERSTITIAL AD
+// ==========================
+function closeAd() {
+  interstitial.style.display = "none";
+}
