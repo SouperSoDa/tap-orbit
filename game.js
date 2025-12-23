@@ -41,3 +41,28 @@ rewardBtn.addEventListener("click", () => {
 function closeAd() {
   interstitial.style.display = "none";
 }
+
+// Idle points: 1 point every second
+setInterval(() => {
+  score++;
+  scoreEl.textContent = score;
+
+  // Increase speed every 10 points
+  if (score % 10 === 0) {
+    spinSpeed = Math.max(0.5, spinSpeed - 0.2);
+    circle.style.animation = `spin ${spinSpeed}s linear infinite`;
+  }
+
+  // Optional milestone message every 25 points
+  if (score % 25 === 0 && score !== 0) {
+    // Only alert once per milestone
+    if (!document.getElementById(`milestone-${score}`)) {
+      const div = document.createElement('div');
+      div.id = `milestone-${score}`;
+      div.style.display = 'none';
+      document.body.appendChild(div);
+      alert(`Great Job! You reached ${score} points!`);
+    }
+  }
+
+}, 1000);
