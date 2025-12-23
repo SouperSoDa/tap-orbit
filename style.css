@@ -56,7 +56,7 @@ button:hover {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .ad-box {
@@ -64,3 +64,4 @@ button:hover {
   padding: 30px;
   border-radius: 10px;
 }
+
