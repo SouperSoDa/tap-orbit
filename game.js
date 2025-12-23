@@ -1,3 +1,10 @@
+// Load high score from localStorage
+let highScore = localStorage.getItem('tapOrbitHighScore') || 0;
+
+// Display high score
+const highScoreEl = document.createElement('p');
+highScoreEl.textContent = `High Score: ${highScore}`;
+document.body.insertBefore(highScoreEl, document.getElementById('circle'));
 let score = 0;
 let taps = 0;
 let spinSpeed = 2; // seconds for one rotation
@@ -66,3 +73,4 @@ setInterval(() => {
   }
 
 }, 1000);
+
